@@ -1,0 +1,13 @@
+version: '2'
+services:
+  wifi-connect:
+    build: ./wifi-connect
+    network_mode: "host"
+    labels:
+      io.resin.features.dbus: '1'
+  ssids:
+    build: ./web-app
+    depends_on:
+      - wifi-connect
+    expose:
+      - "80"

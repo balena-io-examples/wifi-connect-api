@@ -1,0 +1,11 @@
+FROM resin/%%RESIN_MACHINE_NAME%%-python
+
+WORKDIR /usr/src/app
+
+COPY ./requirements.txt /requirements.txt
+
+RUN pip install -r /requirements.txt
+
+COPY . ./
+
+CMD ["python", "web-app.py"]
