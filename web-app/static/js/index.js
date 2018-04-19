@@ -11,9 +11,12 @@ $(function(){
 	});
 
 	$('#connect-form').submit(function(ev){
-		$.post(wifiConnectEndpoint() + '/connect', $('#connect-form').serialize(), function(data){
-			$('.before-submit').hide();
-			$('#submit-message').removeClass('hidden');
+		let serialized = $('#connect-form').serialize();
+		$.post(wifiConnectEndpoint() + '/connect', serialized, function(data){
+			$.post('/custom', serialized, function(data){
+				$('.before-submit').hide();
+				$('#submit-message').removeClass('hidden');
+			});
 		});
 		ev.preventDefault();
 	});
