@@ -5,7 +5,7 @@ services:
     network_mode: "host"
     labels:
       io.resin.features.dbus: '1'
-  ssids:
+  web-app:
     build: ./web-app
     depends_on:
       - wifi-connect
