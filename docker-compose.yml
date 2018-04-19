@@ -8,7 +8,6 @@ services:
       io.resin.features.dbus: '1'
   web-app:
     build: ./web-app
+    network_mode: "host"
     depends_on:
       - wifi-connect
-    expose:
-      - "80"
