@@ -1,11 +1,11 @@
-FROM resin/%%RESIN_MACHINE_NAME%%-python
+FROM resin/%%RESIN_MACHINE_NAME%%-python:3.6.4-20180420
 
 WORKDIR /usr/src/app
 
 COPY ./requirements.txt /requirements.txt
 
-RUN pip install -r /requirements.txt
+RUN pip3 install -r /requirements.txt
 
 COPY . ./
 
-CMD ["python", "web-app.py"]
+CMD ["bash", "start.sh"]
