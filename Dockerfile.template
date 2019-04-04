@@ -1,0 +1,46 @@
+################################################################################
+# Use Balena Debian Stretch Python base image
+
+FROM balenalib/%%RESIN_MACHINE_NAME%%-python:3.7.2-20190327
+
+################################################################################
+# Install wifi-connect dependencies
+
+RUN install_packages dnsmasq curl
+
+################################################################################
+# Install wifi-connect binary
+
+ENV WIFI_CONNECT_VERSION v4.2.5
+
+WORKDIR /tmp/download
+
+RUN curl -Ls https://github.com/resin-io/resin-wifi-connect/releases/download/$WIFI_CONNECT_VERSION/wifi-connect-$WIFI_CONNECT_VERSION-linux-%%RESIN_ARCH%%.tar.gz \
+    | tar -xvz -C /tmp/download
+
+RUN mv wifi-connect /usr/local/sbin
+
+RUN rm -rdf /tmp/download
+
+################################################################################
+# Install web application dependencies
+
+WORKDIR /usr/src/app
+
+RUN pip install --upgrade pip
+
+COPY ./requirements.txt /requirements.txt
+
+RUN pip install -r /requirements.txt
+
+################################################################################
+# Copy all the sources to the work directory
+
+COPY . ./
+
+################################################################################
+# Run web application
+
+ENV DBUS_SYSTEM_BUS_ADDRESS unix:path=/host/run/dbus/system_bus_socket
+
+CMD ["python", "web-app.py"]
